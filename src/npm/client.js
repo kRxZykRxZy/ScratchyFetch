@@ -7,7 +7,8 @@ router.get('/users/:username', async (req, res) => {
     const user = req.params.username;
     const response = await axios.get(`https://api.scratch.mit.edu/users/${user}`);
     const id = response.data.id;
-
+    const message =  
+    
     const content = `<!DOCTYPE html>
 <html lang="en">
 <head>
