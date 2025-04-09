@@ -120,15 +120,15 @@ router.get('/', (req, res) => {
           <a href="/users/kRxZy_kRxZy">kRxZy_kRxZy</a>
         </div>
         <div class="scratcher">
-          <img src="https://uploads.scratch.mit.edu/get_image/user/85216362_100x100.png">
+          <img src="https://uploads.scratch.mit.edu/get_image/user/22794819_100x100.png">
           <a href="/users/nekopyon">nekopyon</a>
         </div>
         <div class="scratcher">
-          <img src="https://uploads.scratch.mit.edu/get_image/user/37671935_100x100.png">
+          <img src="https://uploads.scratch.mit.edu/get_image/user/42591968_100x100.png">
           <a href="/users/TimMcCool">TimMcCool</a>
         </div>
         <div class="scratcher">
-          <img src="https://uploads.scratch.mit.edu/get_image/user/30366768_100x100.png">
+          <img src="https://uploads.scratch.mit.edu/get_image/user/64691048_100x100.png">
           <a href="/users/CST1229">CST1229</a>
         </div>
       </div>
