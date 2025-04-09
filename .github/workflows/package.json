@@ -1,0 +1,19 @@
+{
+  "name": "scratchyfetch",
+  "version": "1.4.3",
+  "description": "A project to fetch data for ScratchyFetch",
+  "main": "src/npm/server.js",
+  "scripts": {
+    "start": "node src/npm/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "ts-node": "^10.4.0"
+  },
+  "author": "kRxZykRxZy",
+  "license": "MIT"
+}
