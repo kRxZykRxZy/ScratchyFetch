@@ -2,53 +2,25 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-function generateRandomWord() {
-  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const length = Math.floor(Math.random() * (20 - 4 + 1)) + 4;
-  let randomWord = '';
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    randomWord += characters[randomIndex];
-  }
-  return randomWord;
-}
-
-async function checkUserActivity(username) {
+async function getFeaturedProjects() {
   try {
-    const response = await axios.get(`https://api.scratch.mit.edu/users/${username}`);
-    const user = response.data;
-    const lastActivity = new Date(user.history);
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-    if (lastActivity >= oneYearAgo) {
-      return true;
-    } else {
-      return false;
-    }
+    const response = await axios.get('https://api.scratch.mit.edu/proxy/featured_projects');
+    const projects = response.data;
+
+    const featuredUsers = projects.slice(0, 3).map(project => ({
+      username: project.author.username,
+      image: `https://uploads.scratch.mit.edu/get_image/user/${project.author.id}_100x100.png`
+    }));
+
+    return featuredUsers;
   } catch (error) {
-    console.error("Error fetching user data:", error);
-    return false;
+    console.error("Error fetching featured projects:", error);
+    return [];
   }
 }
 
 router.get('/', async (req, res) => {
-  const featuredUsers = [
-    { username: 'kRxZy_kRxZy', image: 'https://uploads.scratch.mit.edu/get_image/user/136618149_100x100.png' }
-  ];
-
-  const randomUsers = [];
-  for (let i = 0; i < 3; i++) {
-    let randomUsername = generateRandomWord();
-    let isActive = await checkUserActivity(randomUsername);
-
-    if (!isActive) {
-      randomUsername = generateRandomWord();
-    }
-
-    randomUsers.push({ username: randomUsername, image: `https://uploads.scratch.mit.edu/get_image/user/${randomUsername}_100x100.png` });
-  }
-
-  featuredUsers.push(...randomUsers);
+  const featuredUsers = await getFeaturedProjects();
 
   const content = `
   <!DOCTYPE html>
