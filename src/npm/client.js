@@ -84,12 +84,12 @@ router.get('/users/:username', async (req, res) => {
     </div>
 
     <div class="section">
-      <h3>Followers</h3>
+      <h3>Recent Followers</h3>
       ${followers.map(f => `<p><a href="/users/${f.username}">${f.username}</a></p>`).join('')}
     </div>
 
     <div class="section">
-      <h3>Following</h3>
+      <h3>Recent Followings</h3>
       ${following.map(f => `<p><a href="/users/${f.username}">${f.username}</a></p>`).join('')}
     </div>
 
