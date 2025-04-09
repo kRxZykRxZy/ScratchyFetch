@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const clientRoutes = require('../client');  
+const clientRoutes = require('./client');  
 
 app.use(clientRoutes);
 
