@@ -2,9 +2,10 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
+// Use a proxy to bypass Scratch API's CORS (optional fallback)
 async function getFeaturedProjects() {
   try {
-    const response = await axios.get('https://api.scratch.mit.edu/proxy/featured_projects');
+    const response = await axios.get('https://corsproxy.io/?https://api.scratch.mit.edu/proxy/featured_projects');
     const projects = response.data;
 
     const featuredUsers = projects.slice(0, 3).map(project => ({
@@ -14,7 +15,7 @@ async function getFeaturedProjects() {
 
     return featuredUsers;
   } catch (error) {
-    console.error("Error fetching featured projects:", error);
+    console.error("Error fetching featured projects:", error.message);
     return [];
   }
 }
@@ -53,7 +54,7 @@ router.get('/', async (req, res) => {
         <a href="#">Live Follower Count</a>
       </div>
       <form id="search-form" class="d-flex align-items-center">
-        <input type="text" id="search-input" name="search" placeholder="Enter Search Query" required>
+        <input type="text" id="search-input" name="search" placeholder="Enter a Project ID or a Username" required>
         <button type="submit" class="btn btn-light ms-2">Search</button>
       </form>
     </div>
@@ -74,11 +75,31 @@ router.get('/', async (req, res) => {
         `).join('')}
       </div>
     </div>
+
+    <script>
+      document.getElementById("search-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const input = document.getElementById("search-input").value.trim();
+        if (!input) return;
+        const isNumber = /^\\d+$/.test(input);
+        const url = isNumber ? "/projects/" + input : "/users/" + input;
+        window.location.href = url;
+      });
+    </script>
   </body>
   </html>
   `;
 
   res.send(content);
+});
+
+// Optional catch-all for projects and users pages
+router.get('/projects/:id', (req, res) => {
+  res.send(`<h1>Project ID: ${req.params.id}</h1>`);
+});
+
+router.get('/users/:username', (req, res) => {
+  res.send(`<h1>Username: ${req.params.username}</h1>`);
 });
 
 module.exports = router;
