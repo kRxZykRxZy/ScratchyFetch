@@ -8,8 +8,18 @@ router.get('/projects/:id', async (req, res) => {
     const response = await axios.get(`https://api.scratch.mit.edu/projects/${projectId}`);
     const project = response.data;
     const user = project.author.username;
-    const resv2 = await axios.get(`https://api.scratch.mit.edu/users/${user}/projects/${projector}/comments`);
+
+    const resv2 = await axios.get(`https://api.scratch.mit.edu/users/${user}/projects/${projectId}/comments`);
     const comments = resv2.data;
+
+    let commentsHtml = '';
+    comments.forEach(comment => {
+      commentsHtml += `
+        <div class="comment">
+          <p><strong>${comment.author.username}:</strong> ${comment.text}</p>
+        </div>
+      `;
+    });
 
     const content = `
     <!DOCTYPE html>
@@ -56,6 +66,12 @@ router.get('/projects/:id', async (req, res) => {
           border-radius: 10px;
           border: none;
         }
+        .comment {
+          background: #2d3748;
+          padding: 1rem;
+          margin-top: 1rem;
+          border-radius: 8px;
+        }
       </style>
     </head>
     <body>
@@ -68,7 +84,8 @@ router.get('/projects/:id', async (req, res) => {
         <p><strong>Views:</strong> ${project.stats.views}</p>
         <p><strong>Loves:</strong> ${project.stats.loves}</p>
         <p><strong>Favorites:</strong> ${project.stats.favorites}</p>
-        <p><strong>Comments:</strong> ${comments}</p>
+        <h3>Comments:</h3>
+        ${commentsHtml || '<p>No comments yet.</p>'}
         <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">View on Scratch</a>
         <iframe src="https://scratch.mit.edu/projects/${projectId}/embed" allowtransparency="true" allowfullscreen="true"></iframe>
       </div></center>
