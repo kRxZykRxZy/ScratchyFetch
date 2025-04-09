@@ -54,7 +54,7 @@ router.get('/projects/:id', async (req, res) => {
       </style>
     </head>
     <body>
-      <div class="container">
+     <center><div class="container">
         <img src="${project.images['282x218']}" alt="${project.title}" class="thumbnail">
         <h1>${project.title}</h1>
         <p><strong>Author:</strong> <a href="/users/${project.author.username}">${project.author.username}</a></p>
@@ -66,7 +66,7 @@ router.get('/projects/:id', async (req, res) => {
         <p><strong>Comments:</strong> ${project.stats.comments}</p>
         <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">View on Scratch</a>
         <iframe src="https://scratch.mit.edu/projects/${projectId}/embed" allowtransparency="true" allowfullscreen="true"></iframe>
-      </div>
+      </div></center>
     </body>
     </html>
     `;
