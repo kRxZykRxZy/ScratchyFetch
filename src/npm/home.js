@@ -125,7 +125,9 @@ router.get('/', (req, res) => {
         </div>
       </div>
     </div>
-
+<script>
+const user = document.getElementById('user').value
+window.location.href = `users/${user}`</script>
   </body>
   </html>
   `;
