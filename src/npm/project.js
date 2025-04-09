@@ -7,6 +7,9 @@ router.get('/projects/:id', async (req, res) => {
     const projectId = req.params.id;
     const response = await axios.get(`https://api.scratch.mit.edu/projects/${projectId}`);
     const project = response.data;
+    const user = project.author.username;
+    const resv2 = await axios.get(`https://api.scratch.mit.edu/users/${user}/projects/${projector}/comments`);
+    const comments = resv2.data;
 
     const content = `
     <!DOCTYPE html>
@@ -65,7 +68,7 @@ router.get('/projects/:id', async (req, res) => {
         <p><strong>Views:</strong> ${project.stats.views}</p>
         <p><strong>Loves:</strong> ${project.stats.loves}</p>
         <p><strong>Favorites:</strong> ${project.stats.favorites}</p>
-        <p><strong>Comments:</strong> ${project.stats.comments}</p>
+        <p><strong>Comments:</strong> ${comments}</p>
         <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">View on Scratch</a>
         <iframe src="https://scratch.mit.edu/projects/${projectId}/embed" allowtransparency="true" allowfullscreen="true"></iframe>
       </div></center>
