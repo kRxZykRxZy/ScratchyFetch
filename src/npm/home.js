@@ -29,6 +29,13 @@ router.get('/', (req, res) => {
         width: 250px;
       }
 
+      .navbar button {
+        border-radius: 8px;
+        padding: 6px 12px;
+        margin-left: 10px;
+        border: none;
+      }
+
       .nav-links a {
         color: #fff;
         margin-right: 20px;
@@ -94,8 +101,9 @@ router.get('/', (req, res) => {
         <a href="#">Top Projects</a>
         <a href="#">Live Follower Count</a>
       </div>
-      <form id="user" class="d-flex align-items-center">
-        <input type="text" name="username" placeholder="Enter Scratch username" required>
+      <form id="user-form" class="d-flex align-items-center">
+        <input type="text" id="username-input" name="username" placeholder="Enter Scratch username" required>
+        <button type="submit" class="btn btn-light ms-2">Search</button>
       </form>
     </div>
 
@@ -125,9 +133,17 @@ router.get('/', (req, res) => {
         </div>
       </div>
     </div>
-<script>
-const user = document.getElementById('user').value
-window.location.href = `users/${user}`</script>
+
+    <script>
+      document.getElementById('user-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const username = document.getElementById('username-input').value.trim();
+        if (username) {
+          window.location.href = \`/users/\${encodeURIComponent(username)}\`;
+        }
+      });
+    </script>
+
   </body>
   </html>
   `;
