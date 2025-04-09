@@ -101,9 +101,13 @@ router.get('/', (req, res) => {
         <a href="#">Top Projects</a>
         <a href="#">Live Follower Count</a>
       </div>
+      <form id="project-form" class="d-flex align-items-center">
+        <input type="text" id="project-input" name="project" placeholder="Enter Project ID" required>
+        <button type="submit" class="btn btn-light ms-2">Search</button>
+      </form>
       <form id="user-form" class="d-flex align-items-center">
         <input type="text" id="username-input" name="username" placeholder="Enter Scratch username" required>
-        <button type="submit" class="btn btn-light ms-2">Search</button>
+        <button type="submitpr" class="btn btn-light ms-2">Search</button>
       </form>
     </div>
 
@@ -140,6 +144,14 @@ router.get('/', (req, res) => {
         const username = document.getElementById('username-input').value.trim();
         if (username) {
           window.location.href = \`/users/\${encodeURIComponent(username)}\`;
+        }
+      });
+      
+      document.getElementById('project-form').addEventListener('submitpr', function (event) {
+        event.preventDefault();
+        const project = document.getElementById('project-input').value.trim();
+        if (project) {
+          window.location.href = \`/projects/\${encodeURIComponent(username)}\`;
         }
       });
     </script>
