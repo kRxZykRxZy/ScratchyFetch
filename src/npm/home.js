@@ -94,7 +94,7 @@ router.get('/', (req, res) => {
         <a href="#">Top Projects</a>
         <a href="#">Live Follower Count</a>
       </div>
-      <form action="/" method="GET" class="d-flex align-items-center">
+      <form id="user" class="d-flex align-items-center">
         <input type="text" name="username" placeholder="Enter Scratch username" required>
       </form>
     </div>
