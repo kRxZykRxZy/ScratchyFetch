@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
@@ -22,13 +21,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Cache npm dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-modules-
-    - run: npm ci
-    - run: npm start
-    - run: npm test
+    - name: Clear npm cache
+      run: npm cache clean --force
+    - name: Delete node_modules and package-lock.json
+      run: rm -rf node_modules package-lock.json
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests
+      run: npm test
