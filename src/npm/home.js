@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>ScratchStats Clone</title>
+    <title>ScratchyFetch Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       body {
@@ -94,13 +94,13 @@ router.get('/', (req, res) => {
         <a href="#">Top Projects</a>
         <a href="#">Live Follower Count</a>
       </div>
-      <form action="/users" method="GET" class="d-flex align-items-center">
+      <form action="/" method="GET" class="d-flex align-items-center">
         <input type="text" name="username" placeholder="Enter Scratch username" required>
       </form>
     </div>
 
     <div class="header">
-      <h1>Welcome to ScratchStats.com</h1>
+      <h1>Welcome to ScratchyFetch!</h1>
       <p>Your source for Scratch community statistics</p>
     </div>
 
@@ -108,8 +108,8 @@ router.get('/', (req, res) => {
       <h2>Featured Scratchers</h2>
       <div class="scratchers">
         <div class="scratcher">
-          <img src="https://uploads.scratch.mit.edu/get_image/user/65992964_100x100.png">
-          <a href="/users/World_Languages">World_Languages</a>
+          <img src="https://uploads.scratch.mit.edu/get_image/user/136618149_100x100.png">
+          <a href="/users/kRxZy_kRxZy">kRxZy_kRxZy</a>
         </div>
         <div class="scratcher">
           <img src="https://uploads.scratch.mit.edu/get_image/user/85216362_100x100.png">
