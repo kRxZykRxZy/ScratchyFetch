@@ -5,7 +5,7 @@ const router = express.Router();
 async function getFeaturedProjectUsers() {
   try {
     const response = await axios.get('https://api.scratch.mit.edu/explore/projects?q=games&mode=trending&language=en');
-    const projects = response.data.slice(0, 30);
+    const projects = response.data.slice(0, 15);
 
     const users = projects.map(project => ({
       username: project.author.username,
