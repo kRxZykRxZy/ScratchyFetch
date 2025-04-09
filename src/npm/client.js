@@ -9,78 +9,104 @@ router.get('/users/:username', async (req, res) => {
     const id = response.data.id;
 
     const content = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>User Profile</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-      <style>
-        body {
-          background-color: #111;
-          color: #fff;
-          font-family: Arial, sans-serif;
-          height: 100vh;
-        }
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
 
-        .profile-card {
-          background: #1e1e2f;
-          border-radius: 16px;
-          padding: 3rem;
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
-          text-align: center;
-        }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+    }
 
-        .profile-pic {
-          width: 180px;
-          height: 180px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 4px solid #333;
-          margin-bottom: 2rem;
-          background-color: #333;
-        }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #333;
+      background-color: #333;
+    }
 
-        .username {
-          font-size: 2rem;
-          font-weight: bold;
-          margin-bottom: 1rem;
-        }
+    .username {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 1rem 0 0.5rem;
+    }
 
-        .user-details {
-          font-size: 1.2rem;
-          color: #bbb;
-        }
+    .details-box {
+      background-color: #222;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
 
-        .full-screen {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-        }
-      </style>
-    </head>
-    <body>
+    .details-box p {
+      margin: 0.4rem 0;
+      color: #ccc;
+    }
 
-      <div class="container-fluid full-screen">
-        <div class="row justify-content-center">
-          <div class="col-md-4 col-10">
-            <div class="profile-card">
-              <img src="https://uploads.scratch.mit.edu/get_image/user/${id}_100x100.png" alt="Profile Picture" class="profile-pic">
-              <div class="username">${user}</div>
-              <div class="user-details">
-                <p>Details go here.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    .section-title {
+      font-weight: bold;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
 
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <div class="container">
+    <img id="profileImage" src="" alt="Profile Picture" class="profile-pic">
+    <div id="username" class="username"></div>
 
-    </body>
-    </html>`;
+    <div class="details-box">
+      <div class="section-title">Account Info</div>
+      <p><strong>Join Date:</strong> <span id="joinDate"></span></p>
+      <p><strong>Account ID:</strong> <span id="accountId"></span></p>
+      <p><strong>Location:</strong> <span id="location"></span></p>
+    </div>
+
+    <div class="details-box">
+      <div class="section-title">Followers</div>
+      <p><strong>Follower Count:</strong> <span id="followerCount"></span></p>
+    </div>
+  </div>
+
+  <script>
+    let username;
+    let accountId;
+    let joinDate;
+    let location;
+    let followerCount;
+    let profileImageUrl;
+
+    document.getElementById('username').textContent = username || '${user}';
+    document.getElementById('accountId').textContent = accountId || '${id}';
+    document.getElementById('joinDate').textContent = joinDate || '';
+    document.getElementById('location').textContent = location || '';
+    document.getElementById('followerCount').textContent = followerCount || '';
+    document.getElementById('profileImage').src = profileImageUrl || 'https://uploads.scratch.mit.edu/get_image/user/${id}_100x100.png';
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+`;
 
     res.send(content);
   } catch (error) {
