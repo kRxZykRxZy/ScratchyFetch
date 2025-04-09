@@ -2,26 +2,33 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-// Use a proxy to bypass Scratch API's CORS (optional fallback)
-async function getFeaturedProjects() {
+async function getFeaturedProjectUsers() {
   try {
-    const response = await axios.get('https://corsproxy.io/?https://api.scratch.mit.edu/proxy/featured_projects');
-    const projects = response.data;
+    const response = await axios.get('https://api.scratch.mit.edu/explore/projects?q=games&mode=trending&language=en');
+    const projects = response.data.slice(0, 3);
 
-    const featuredUsers = projects.slice(0, 3).map(project => ({
+    const users = projects.map(project => ({
       username: project.author.username,
       image: `https://uploads.scratch.mit.edu/get_image/user/${project.author.id}_100x100.png`
     }));
 
-    return featuredUsers;
+    users.unshift({
+      username: 'kRxZy_kRxZy',
+      image: 'https://uploads.scratch.mit.edu/get_image/user/136618149_100x100.png'
+    });
+
+    return users;
   } catch (error) {
-    console.error("Error fetching featured projects:", error.message);
-    return [];
+    console.error('Failed to fetch featured projects:', error);
+    return [{
+      username: 'kRxZy_kRxZy',
+      image: 'https://uploads.scratch.mit.edu/get_image/user/136618149_100x100.png'
+    }];
   }
 }
 
 router.get('/', async (req, res) => {
-  const featuredUsers = await getFeaturedProjects();
+  const featuredUsers = await getFeaturedProjectUsers();
 
   const content = `
   <!DOCTYPE html>
@@ -54,7 +61,7 @@ router.get('/', async (req, res) => {
         <a href="#">Live Follower Count</a>
       </div>
       <form id="search-form" class="d-flex align-items-center">
-        <input type="text" id="search-input" name="search" placeholder="Enter a Project ID or a Username" required>
+        <input type="text" id="search-input" name="search" placeholder="Enter Search Query" required>
         <button type="submit" class="btn btn-light ms-2">Search</button>
       </form>
     </div>
@@ -77,13 +84,15 @@ router.get('/', async (req, res) => {
     </div>
 
     <script>
-      document.getElementById("search-form").addEventListener("submit", function(e) {
-        e.preventDefault();
-        const input = document.getElementById("search-input").value.trim();
+      document.getElementById('search-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const input = document.getElementById('search-input').value.trim();
         if (!input) return;
-        const isNumber = /^\\d+$/.test(input);
-        const url = isNumber ? "/projects/" + input : "/users/" + input;
-        window.location.href = url;
+        if (/^\\d+$/.test(input)) {
+          window.location.href = '/projects/' + encodeURIComponent(input);
+        } else {
+          window.location.href = '/users/' + encodeURIComponent(input);
+        }
       });
     </script>
   </body>
@@ -91,15 +100,6 @@ router.get('/', async (req, res) => {
   `;
 
   res.send(content);
-});
-
-// Optional catch-all for projects and users pages
-router.get('/projects/:id', (req, res) => {
-  res.send(`<h1>Project ID: ${req.params.id}</h1>`);
-});
-
-router.get('/users/:username', (req, res) => {
-  res.send(`<h1>Username: ${req.params.username}</h1>`);
 });
 
 module.exports = router;
