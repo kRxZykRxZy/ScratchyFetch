@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 
 const clientRoutes = require('./client');  
+const homeRoutes = require('./home');
 
+app.use(homeRoutes);
 app.use(clientRoutes);
 
 app.listen(3000, () => {
