@@ -39,6 +39,8 @@ router.get('/projects/:id', async (req, res) => {
         }
         p {
           color: #ccc;
+          word-wrap: break-word;
+          white-space: pre-wrap;
         }
         a {
           color: #60a5fa;
