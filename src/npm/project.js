@@ -16,7 +16,7 @@ router.get('/projects/:id', async (req, res) => {
     comments.forEach(comment => {
       commentsHtml += `
         <div class="comment">
-          <p><strong>${comment.author.username}:</strong> ${comment.text}</p>
+          <p><strong>${comment.author.username}:</strong> ${comment.content}</p>
         </div>
       `;
     });
@@ -84,7 +84,7 @@ router.get('/projects/:id', async (req, res) => {
         <p><strong>Views:</strong> ${project.stats.views}</p>
         <p><strong>Loves:</strong> ${project.stats.loves}</p>
         <p><strong>Favorites:</strong> ${project.stats.favorites}</p>
-        <h3>Comments:</h3>
+        <h3>Recent Comments:</h3>
         ${commentsHtml || '<p>No comments yet.</p>'}
         <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">View on Scratch</a>
         <iframe src="https://scratch.mit.edu/projects/${projectId}/embed" allowtransparency="true" allowfullscreen="true"></iframe>
