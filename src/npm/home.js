@@ -61,7 +61,7 @@ router.get('/', async (req, res) => {
         <a href="#">Live Follower Count</a>
       </div>
       <form id="search-form" class="d-flex align-items-center">
-        <input type="text" id="search-input" name="search" placeholder="Enter Search Query" required>
+        <input type="text" id="search-input" name="search" placeholder="Enter A Username Or A Project ID" required>
         <button type="submit" class="btn btn-light ms-2">Search</button>
       </form>
     </div>
