@@ -98,7 +98,7 @@ router.get('/users/:username', async (req, res) => {
       ${projects.map(p => `
         <div class="project-card">
           <p><strong>${p.title}</strong></p>
-          <a href="https://scratch.mit.edu/projects/${p.id}" target="_blank">View Project</a>
+          <a href="/projects/${p.id}" target="_blank">View Project</a>
         </div>
       `).join('')}
     </div>
