@@ -108,7 +108,7 @@ router.get('/login', (req, res) => {
             if (data && data.username) {
               localStorage.setItem('user', data.username);
               alert(\`Welcome, \${data.username}!\`);
-              // Optionally redirect or update UI here
+              window.location.href = '/';
             } else {
               console.error("Username not found in response:", data);
             }
