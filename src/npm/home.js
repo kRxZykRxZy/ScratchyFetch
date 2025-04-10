@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
   <body>
     <div class="navbar d-flex justify-content-between align-items-center">
       <div class="nav-links">
-        <a href="login">Login With Scratch</a>
+        <a id="link" href="login">Login With Scratch</a>
       </div>
       <form id="search-form" class="d-flex align-items-center">
         <input type="text" id="search-input" name="search" placeholder="Username Or A Project ID" required>
@@ -92,6 +92,8 @@ router.get('/', async (req, res) => {
           window.location.href = '/users/' + encodeURIComponent(input);
         }
       });
+
+      document.getElementById('link').textContent = localStorage.getItem('user')
     </script>
   </body>
   </html>
