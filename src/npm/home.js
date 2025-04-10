@@ -161,8 +161,7 @@ router.get('/', async (req, res) => {
     <div class="navbar d-flex justify-content-between align-items-center">
       <div class="nav-links">
         <a id="link" href="login">Login With Scratch</a>
-      </div>
-            <button class="mode-toggle" onclick="toggleMode()">Dark/Light Mode</button>
+            <button class="mode-toggle" onclick="toggleMode()">Dark/Light Mode</button></div>
       <form id="search-form" class="d-flex align-items-center">
         <input type="text" id="search-input" name="search" placeholder="Username Or A Project ID" required>
         <button type="submit" class="btn btn-light ms-2">Search</button>
