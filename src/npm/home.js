@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-async function getFeaturedProjectUsers() {
+async function getFeaturedProjectUsers(usernames, count) {
   try {
     const response = await axios.get('https://api.scratch.mit.edu/explore/projects?q=games&mode=trending&language=en');
     const projects = response.data.slice(0, 15);
@@ -12,12 +12,22 @@ async function getFeaturedProjectUsers() {
       image: `https://uploads.scratch.mit.edu/get_image/user/${project.author.id}_100x100.png`
     }));
 
-    users.unshift({
-      username: 'kRxZy_kRxZy',
-      image: 'https://uploads.scratch.mit.edu/get_image/user/136618149_100x100.png'
-    });
+    const contribs = 'jeffnp';
 
-    return users;
+    if (contribs) {
+      const extraUsers = contribs.split(',').map(async (username) => {
+        const userResponse = await axios.get(`https://api.scratch.mit.edu/users/${username.trim()}`);
+        const userId = userResponse.data.id;
+        return {
+          username: username.trim(),
+          image: `https://uploads.scratch.mit.edu/get_image/user/${userId}_100x100.png`
+        };
+      });
+      const extraUsersData = await Promise.all(extraUsers);
+      users.unshift(...extraUsersData);
+    }
+
+    return users.slice(0, 15);
   } catch (error) {
     console.error('Failed to fetch featured projects:', error);
     return [{
@@ -28,7 +38,10 @@ async function getFeaturedProjectUsers() {
 }
 
 router.get('/', async (req, res) => {
-  const featuredUsers = await getFeaturedProjectUsers();
+  const count = parseInt(req.query.count) || 5;
+  const usernames = 'jeffnp';
+
+  const featuredUsers = await getFeaturedProjectUsers(usernames, count);
 
   const content = `
   <!DOCTYPE html>
@@ -60,7 +73,7 @@ router.get('/', async (req, res) => {
         background-color: #3b82f6;
         padding: 1rem;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         width: 100%;
       }
@@ -206,7 +219,6 @@ router.get('/', async (req, res) => {
         document.getElementById('link').href = '/account';
       }
 
-      // Dark/Light mode logic
       function toggleMode() {
         const body = document.body;
         body.classList.toggle('light-mode');
@@ -215,7 +227,6 @@ router.get('/', async (req, res) => {
         localStorage.setItem('theme', mode);
       }
 
-      // Load preferred theme
       (function() {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
