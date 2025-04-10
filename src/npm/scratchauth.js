@@ -103,7 +103,7 @@ router.get('/login', (req, res) => {
           if (!code) return;
 
           try {
-            const response = await fetch(\`https://auth-api.itinerary.eu.org/api/auth/verifyToken?privateCode=\${code}\`);
+            const response = await fetch(\`https://auth-api.itinerary.eu.org/auth/verifyToken/\${code}\`);
             const data = await response.json();
             if (data && data.username) {
               localStorage.setItem('user', data.username);
