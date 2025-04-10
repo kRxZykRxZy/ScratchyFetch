@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
-const router = express.Router();
+const router = express.Router;
+const port = 3000;
 
 async function getFeaturedProjectUsers(usernames, count) {
   try {
@@ -30,7 +31,7 @@ async function getFeaturedProjectUsers(usernames, count) {
     return users.slice(0, 15);
   } catch (error) {
     console.error('Failed to fetch featured projects:', error);
-    return users
+    return [];
   }
 }
 
@@ -168,13 +169,10 @@ router.get('/', async (req, res) => {
     </style>
   </head>
   <body>
-    <button class="mode-toggle" onclick="toggleMode()">
-      <div class="moon-icon"></div>
-    </button>
-
     <div class="navbar">
       <div class="nav-links">
         <a id="link" href="login">Login With Scratch</a>
+        <a href="/settings">Settings</a>
       </div>
       <form id="search-form" class="d-flex align-items-center">
         <input type="text" id="search-input" name="search" placeholder="Username Or A Project ID" required>
@@ -232,6 +230,74 @@ router.get('/', async (req, res) => {
           document.body.classList.add('dark-mode');
         }
       })();
+    </script>
+  </body>
+  </html>
+  `;
+
+  res.send(content);
+});
+
+router.get('/settings', (req, res) => {
+  const content = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .light-mode {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      .dark-mode {
+        background-color: #0e1621;
+        color: #ffffff;
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      .btn-toggle {
+        margin-top: 20px;
+      }
+
+      .btn-logout {
+        margin-top: 20px;
+        background-color: red;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Settings</h1>
+      <button class="btn btn-primary btn-toggle" onclick="toggleMode()">Toggle Light/Dark Mode</button>
+      <button class="btn btn-danger btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+      function toggleMode() {
+        const body = document.body;
+        body.classList.toggle('light-mode');
+        body.classList.toggle('dark-mode');
+        const mode = body.classList.contains('light-mode') ? 'light' : 'dark';
+        localStorage.setItem('theme', mode);
+      }
+
+      function logout() {
+        localStorage.removeItem('user');
+        window.location.href = '/';
+      }
     </script>
   </body>
   </html>
