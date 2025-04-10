@@ -89,18 +89,33 @@ router.get('/login', (req, res) => {
           <h2>Login to ScratchyFetch</h2>
           <button onclick="scratchAuth()">Login With ScratchAuth</button>
         </div>
+      </div>
+
       <script>
         function scratchAuth() {
           const redirectUrl = btoa(window.location.href);
           window.location.href = \`https://auth.itinerary.eu.org/auth?redirect=\${redirectUrl}&name=ScratchyFetch\`;
         }
 
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('privateCode');
-        const response = await fetch(\`https://auth.itinerary.eu.org/api/auth/verifyToken?privateCode={code}\`);
-        const data = await response.json();
-        localStorage.setItem('user', data username);
+        (async () => {
+          const params = new URLSearchParams(window.location.search);
+          const code = params.get('privateCode');
+          if (!code) return;
 
+          try {
+            const response = await fetch(\`https://auth.itinerary.eu.org/api/auth/verifyToken?privateCode=\${code}\`);
+            const data = await response.json();
+            if (data && data.username) {
+              localStorage.setItem('user', data.username);
+              alert(\`Welcome, \${data.username}!\`);
+              // Optionally redirect or update UI here
+            } else {
+              console.error("Username not found in response:", data);
+            }
+          } catch (error) {
+            console.error("Failed to verify token:", error);
+          }
+        })();
       </script>
     </body>
     </html>
