@@ -94,6 +94,13 @@ router.get('/login', (req, res) => {
           const redirectUrl = btoa(window.location.href);
           window.location.href = \`https://auth.itinerary.eu.org/auth?redirect=\${redirectUrl}&name=ScratchyFetch\`;
         }
+
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('privateCode');
+        const response = await fetch(\`https://auth.itinerary.eu.org/api/auth/verifyToken?privateCode={code}\`);
+        const data = await response.json();
+        localStorage.setItem('user', data username);
+
       </script>
     </body>
     </html>
