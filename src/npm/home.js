@@ -92,8 +92,9 @@ router.get('/', async (req, res) => {
           window.location.href = '/users/' + encodeURIComponent(input);
         }
       });
-
+      if(localStorage.getItem('user')) {
       document.getElementById('link').textContent = localStorage.getItem('user')
+     } 
     </script>
   </body>
   </html>
