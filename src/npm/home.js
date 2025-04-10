@@ -12,7 +12,7 @@ async function getFeaturedProjectUsers(usernames, count) {
       image: `https://uploads.scratch.mit.edu/get_image/user/${project.author.id}_100x100.png`
     }));
 
-    const contribs = 'jeffnp';
+    const contribs = 'kRxZy_kRxZy, jeffnp';
 
     if (contribs) {
       const extraUsers = contribs.split(',').map(async (username) => {
@@ -30,10 +30,7 @@ async function getFeaturedProjectUsers(usernames, count) {
     return users.slice(0, 15);
   } catch (error) {
     console.error('Failed to fetch featured projects:', error);
-    return [{
-      username: 'kRxZy_kRxZy',
-      image: 'https://uploads.scratch.mit.edu/get_image/user/136618149_100x100.png'
-    }];
+    return users
   }
 }
 
