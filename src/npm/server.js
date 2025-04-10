@@ -4,7 +4,7 @@ const app = express();
 const clientRoutes = require('./client');  
 const homeRoutes = require('./home');
 const projectRoutes = require('./project');
-const loginRoutes = require('./login');
+const loginRoutes = require('./scratchauth');
 
 app.use(homeRoutes);
 app.use(clientRoutes);
