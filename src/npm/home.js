@@ -198,8 +198,8 @@ router.get('/', async (req, res) => {
       });
 
       if (localStorage.getItem('user')) {
-        document.getElementById('link').textContent = \`${localStorage.getItem('user')'s Account\`;
-        document.getElementById('link').href = 'account';
+        document.getElementById('link').textContent = \`\${localStorage.getItem('user')}'s Account\`;
+        document.getElementById('link').href = '/account';
       }
 
       // Dark/Light mode logic
