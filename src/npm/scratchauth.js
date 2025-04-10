@@ -1,7 +1,7 @@
 const express = require('express');
-const app = express();
+const router = express.Router();
 
-app.get('/login', (req, res) => {
+router.get('/login', (req, res) => {
   const htmlContent = `
     <!DOCTYPE html>
     <html lang="en">
@@ -100,3 +100,5 @@ app.get('/login', (req, res) => {
   `;
   res.send(htmlContent);
 });
+
+module.exports = router;
