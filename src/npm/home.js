@@ -56,9 +56,7 @@ router.get('/', async (req, res) => {
   <body>
     <div class="navbar d-flex justify-content-between align-items-center">
       <div class="nav-links">
-        <a href="#">Top Scratchers</a>
-        <a href="#">Top Projects</a>
-        <a href="#">Live Follower Count</a>
+        <a href="login">Login With Scratch</a>
       </div>
       <form id="search-form" class="d-flex align-items-center">
         <input type="text" id="search-input" name="search" placeholder="Username Or A Project ID" required>
