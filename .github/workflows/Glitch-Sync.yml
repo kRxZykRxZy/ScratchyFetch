@@ -1,0 +1,17 @@
+name: Deploy to Glitch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send ping to Glitch project
+        run: |
+          curl -X POST https://api.glitch.com/project/githubImport \
+            -H "Authorization: Bearer ${{ secrets.GLITCH_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"projectId":"3f142cc3-7525-4672-a122-e8813799b9d3","repo":"https://github.com/kRxZykRxZy/ScratchyFetch"}'
