@@ -26,6 +26,125 @@ router.get('/users/:username', async (req, res) => {
   <title>${user.username} | Scratch Profile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+    background-color: #0e1621;
+    color: #ffffff;
+  }
+
+  .light-mode {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .dark-mode {
+    background-color: #0e1621 !important;
+    color: #ffffff !important;
+  }
+
+  .navbar {
+    background-color: #3b82f6;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-left a,
+  .nav-right a {
+    color: #ffffff;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-form input {
+    border-radius: 8px;
+    border: none;
+    padding: 8px 15px;
+    width: 400px;
+  }
+
+  .search-form button {
+    border-radius: 8px;
+    padding: 8px 15px;
+    border: none;
+  }
+
+  .header {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .featured {
+    margin: 3rem auto;
+    max-width: 800px;
+    background: #1e293b;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .light-mode .featured {
+    background: #e2e8f0;
+  }
+
+  .featured h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  .scratchers {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .scratcher {
+    text-align: center;
+  }
+
+  .scratcher img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #ccc;
+    margin-bottom: 0.5rem;
+  }
+
+  .scratcher a {
+    color: #60a5fa;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .container {
+    margin-top: 50px;
+    padding: 2rem;
+  }
+
+  .btn-toggle {
+    margin-top: 20px;
+  }
+
+  .btn-logout {
+    margin-top: 20px;
+    background-color: red;
+    color: white;
+  }
     body {
       background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
       color: #fff;
@@ -70,6 +189,19 @@ router.get('/users/:username', async (req, res) => {
   </style>
 </head>
 <body>
+<div class="navbar">
+  <div class="nav-left">
+    <a id="link" href="login">Login With Scratch</a>
+  </div>
+  <form id="search-form" class="search-form">
+    <input type="text" id="search-input" name="search" placeholder="Username Or A Project ID" required>
+    <button type="submit" class="btn btn-light">Search</button>
+  </form>
+  <div class="nav-right">
+    <a href="/settings">Settings</a>
+  </div>
+</div>
+    
   <div class="container text-center">
     <img src="${profileImg}" class="profile-pic">
     <h1 class="username">${user.username}${user.scratchteam ? ' <span style="font-size:1rem;" class="badge bg-info">Scratch Team</span>' : ''}</h1>
@@ -103,6 +235,45 @@ router.get('/users/:username', async (req, res) => {
       `).join('')}
     </div>
   </div>
+<script>
+        function toggleMode() {
+          const body = document.body;
+          body.classList.toggle('light-mode');
+          body.classList.toggle('dark-mode');
+          const mode = body.classList.contains('light-mode') ? 'light' : 'dark';
+          localStorage.setItem('theme', mode);
+        }
+
+        function logout() {
+          localStorage.removeItem('user');
+          window.location.href = '/';
+        }
+
+  document.getElementById('search-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const input = document.getElementById('search-input').value.trim();
+    if (!input) return;
+    if (/^\\d+$/.test(input)) {
+      window.location.href = '/projects/' + encodeURIComponent(input);
+    } else {
+      window.location.href = '/users/' + encodeURIComponent(input);
+    }
+  });
+
+  if (localStorage.getItem('user')) {
+    document.getElementById('link').textContent = \`\${localStorage.getItem('user')}'s Account\`;
+    document.getElementById('link').href = '/account';
+  }
+
+  (function () {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-mode');
+    } else {
+      document.body.classList.add('dark-mode');
+    }
+  })();
+</script>
 </body>
 </html>
 `;
