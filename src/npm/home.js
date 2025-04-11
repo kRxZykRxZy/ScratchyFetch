@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const router = express.Router;
+const router = express.Router();
 const port = 3000;
 
 async function getFeaturedProjectUsers(usernames, count) {
