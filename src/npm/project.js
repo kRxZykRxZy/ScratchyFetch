@@ -144,10 +144,6 @@ router.get('/projects/:id', async (req, res) => {
         </div>
       </div>
 
-      <button class="mode-toggle" onclick="toggleMode()">
-        <div class="moon-icon"></div>
-      </button>
-
       <center>
         <div class="container">
           <img src="${project.images['282x218']}" alt="${project.title}" class="thumbnail">
