@@ -1,18 +1,61 @@
-# .github/workflows/node-run.yml
-name: Run Server Temporarily
+# .github/workflows/scrape-pages.yml
+name: Scrape and Deploy Static Site
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  run-server:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 18
-      - run: |
-          cd src
-          npm install
-          node npm/server.js
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: |
+        cd src
+        npm install
+
+    - name: Start server and snapshot pages
+      run: |
+        cd src
+        node npm/server.js &
+
+        # Wait for the server to start
+        sleep 5
+
+        # Create docs folder structure
+        mkdir -p ../docs/users
+        mkdir -p ../docs/blog
+
+        # Scrape specific pages (Home, Settings, Login)
+        curl http://localhost:3000/ > ../docs/index.html
+        curl http://localhost:3000/settings > ../docs/settings.html
+        curl http://localhost:3000/login > ../docs/login.html
+
+        # Fetching a range of possible /users/:user pages dynamically
+        for user_id in {1..1000}; do
+          STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}" "http://localhost:3000/users/$user_id")
+
+          # If the status code is 200 (valid response), scrape the page
+          if [[ $STATUS_CODE -eq 200 ]]; then
+            # Save the page as an HTML file in docs/users/:user_id.html
+            curl "http://localhost:3000/users/$user_id" > "../docs/users/$user_id.html"
+          fi
+        done
+
+    - name: Commit static site
+      run: |
+        git config --global user.email "github-actions@users.noreply.github.com"
+        git config --global user.name "GitHub Actions"
+        git add docs/
+        git commit -m "Update static site with user pages and important pages"
+        git push || echo "No changes to commit"
