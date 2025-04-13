@@ -26,8 +26,9 @@ jobs:
       run: |
         cd src
         npm install
+        npm install express axios # Install Express and Axios specifically
 
     - name: Start the server
       run: |
-        cd src
-        nohup npm run server.js & # Run the server in the background
+        cd src/npm
+        nohup npm start & # Start the server in the background
