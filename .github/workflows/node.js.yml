@@ -1,31 +1,33 @@
-name: Node.js CI
+name: Node.js Continuous Server
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: Clear npm cache
-      run: npm cache clean --force
-    - name: Delete node_modules and package-lock.json
-      run: rm -rf node_modules package-lock.json
+        node-version: '14' # Set this to the version you are using
+
     - name: Install dependencies
-      run: npm install
-    - name: Run tests
-      run: npm test
+      run: |
+        cd src
+        npm install
+
+    - name: Start the server
+      run: |
+        cd src
+        nohup npm run server.js & # Run the server in the background
