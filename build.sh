@@ -1,5 +1,7 @@
 #!/bin/bash
 
+npm audit
+npm audit fix --force
 # Install npm dependencies
 echo "Installing dependencies..."
 npm install
