@@ -6,8 +6,8 @@ npm audit fix --force
 
 # Install npm dependencies
 echo "Installing dependencies..."
-npm install express axios
+npm install
 
 # Start the application using nohup
 echo "Starting the application..."
-nohup node src/npm/server.js &
+npm start
