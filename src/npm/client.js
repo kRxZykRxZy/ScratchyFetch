@@ -6,7 +6,7 @@ router.get('/users/:username', async (req, res) => {
   try {
     const username = decodeURIComponent(req.params.username);
     const userRes = await axios.get(`https://api.scratch.mit.edu/users/${username}`);
-    const userProjectsRes = await axios.get(`https://api.scratch.mit.edu/users/${username}/projects?limit=5`);
+    const userProjectsRes = await axios.get(`https://api.scratch.mit.edu/users/${username}/projects?limit=7`);
     const userFollowersRes = await axios.get(`https://api.scratch.mit.edu/users/${username}/followers?limit=5`);
     const userFollowingRes = await axios.get(`https://api.scratch.mit.edu/users/${username}/following?limit=5`);
 
