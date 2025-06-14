@@ -157,7 +157,7 @@ router.get('/projects/:id', async (req, res) => {
           <h3>Recent Comments:</h3>
           ${commentsHtml || '<p>No comments yet.</p>'}
           <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">View on Scratch</a>
-          <iframe src="https://scratch.mit.edu/projects/${projectId}/embed" allowtransparency="true" allowfullscreen="true"></iframe>
+          <iframe src="https://turbowarp.org/${projectId}/embed" allowtransparency="true" allowfullscreen="true"></iframe>
         </div>
       </center>
 
